@@ -1,0 +1,51 @@
+[
+  {
+    "path": "/",
+    "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/layout",
+    "children": [
+      {
+        "path": "",
+        "name": "home",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/home",
+        "_name": "_791bac30"
+      },
+      {
+        "path": "/login",
+        "name": "login",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/login",
+        "_name": "_aadbbb90"
+      },
+      {
+        "path": "/register",
+        "name": "register",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/login",
+        "_name": "_aadbbb90"
+      },
+      {
+        "path": "/profile/:username",
+        "name": "profile",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/profile",
+        "_name": "_27b944b8"
+      },
+      {
+        "path": "/settings",
+        "name": "settings",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/settings",
+        "_name": "_60af62f4"
+      },
+      {
+        "path": "/editor",
+        "name": "editor",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/editor",
+        "_name": "_c9b36f04"
+      },
+      {
+        "path": "/article/:slug",
+        "name": "article",
+        "component": "/Users/Starry/Documents/EvangelineWong/workspace_2021/lagou/03-03-code/realworld-nuxtjs/pages/article",
+        "_name": "_0e838805"
+      }
+    ],
+    "_name": "_b215bb8a"
+  }
+]
