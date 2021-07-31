@@ -30,6 +30,7 @@ export default ({store}) => {
     }, function (error) {
         //如果请求失败(此时请求还没有发出去)就会进入这里
         // Do something with request error
+        console.log('error',error)
         return Promise.reject(error);
     });
 
