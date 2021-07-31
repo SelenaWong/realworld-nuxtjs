@@ -32,7 +32,7 @@
                             </nuxt-link>
                         </li>
                         <li class="nav-item">
-                            <nuxt-link class="nav-link" to="/profile/1">
+                            <nuxt-link class="nav-link" :to="{path: '/profile/'+user.username}">
                                 <img class="user-pic"
                                      :src="user.image" alt="">
                                 {{user.username}}
