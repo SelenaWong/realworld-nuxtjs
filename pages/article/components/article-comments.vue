@@ -2,11 +2,14 @@
     <div>
         <form class="card comment-form">
             <div class="card-block">
-                <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+                <textarea class="form-control"
+                          placeholder="Write a comment..."
+                          rows="3"
+                          v-model="inputComment"></textarea>
             </div>
             <div class="card-footer">
                 <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img"/>
-                <button class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary" @click="submitComment">
                     Post Comment
                 </button>
             </div>
@@ -42,6 +45,7 @@
 </template>
 <script>
     import {getComments} from '@/api/article.js'
+    import {createComments} from "../../../api/article";
 
     export default {
         name: 'ArticleComments',
@@ -55,13 +59,31 @@
         data() {
             return {
                 comments: [],//评论列表
+                inputComment: ''
             }
         },
 
         async mounted() {
-            const {data} = await getComments(this.article.slug)
-            this.comments = data.comments
+            this.getCommentData()
         },
+        methods: {
+            async submitComment() {
+                if (!this.inputComment) {
+                    return
+                }
+                await createComments(this.article.slug, {
+                    comment: {
+                        body: this.inputComment
+                    }
+                })
+                this.getCommentData()
+
+            },
+            async getCommentData() {
+                const {data} = await getComments(this.article.slug)
+                this.comments = data.comments
+            }
+        }
 
     }
 </script>

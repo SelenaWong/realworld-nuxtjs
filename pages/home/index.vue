@@ -135,6 +135,7 @@
         watchQuery: ['page', 'tag', 'tab'],
         methods: {
             async onFavorite(article) {
+                console.log(article)
                 article.favoriteDisabled = true
                 if (article.favorited) {
                     //取消点赞

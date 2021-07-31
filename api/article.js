@@ -53,15 +53,56 @@ export const getComments = slug => {
     })
 }
 
+//创建文章
+export const creatArticle = data => {
+    return request({
+        method: 'POST',
+        url: '/api/articles',
+        data
+    })
+}
 
 
+//follow 用户
+export const followUser = slug => {
+    return request({
+        method: 'POST',
+        url: `/api/profiles/${slug}/follow`
+    })
+}
+//un follow 用户
+export const unFlollowUser = slug => {
+    return request({
+        method: 'DELETE',
+        url: `/api/profiles/${slug}/follow`
+    })
+}
 
+//更新文章
+export const updateArticle = (slug, data) => {
+    return request({
+        method: 'PUT',
+        url: `/api/articles/${slug}`,
+        data
+    })
+}
 
+//删除文章
+export const deleteArticle = slug => {
+    return request({
+        method: 'DELETE',
+        url: `/api/articles/${slug}`
+    })
+}
 
-
-
-
-
+//发布评论
+export const createComments = (slug, data) => {
+    return request({
+        method: 'POST',
+        url: `/api/articles/${slug}/comments`,
+        data
+    })
+}
 
 
 

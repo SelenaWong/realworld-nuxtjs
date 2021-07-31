@@ -8,7 +8,8 @@ const cookieparser = process.server ? require('cookieparser') : undefined
 export const state = () => {
     return {
         //当前登录用户的登录状态
-        user: null
+        user: null,
+        currentArticle: null,
     }
 }
 

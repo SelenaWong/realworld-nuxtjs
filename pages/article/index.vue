@@ -3,7 +3,8 @@
         <div class="banner">
             <div class="container">
                 <h1>{{article.title}}</h1>
-                <article-meta :article="article"/>
+                <article-meta :article="article" :user="user"
+                              />
             </div>
         </div>
         <div class="container page">
@@ -13,7 +14,8 @@
             </div>
             <hr/>
             <div class="article-actions">
-                <article-meta :article="article"/>
+                <article-meta :article="article" :user="user"
+                              />
             </div>
 
             <div class="row">
@@ -31,19 +33,25 @@
     import MarkdownIt from 'markdown-it'
     import ArticleMeta from './components/article-meta'
     import ArticleComments from "./components/article-comments";
+    import {getUserInfo} from "../../api/user";
 
 
     export default {
         name: 'ArticleIndex',
-        methods: {},
+        methods: {
+
+        },
 
         async asyncData({params}) {
             const {data} = await getArticle(params.slug)
             const {article} = data
+            const result = await getUserInfo()
+            const {user} = result.data
             const md = new MarkdownIt()
             article.body = md.render(article.body)
             return {
-                article
+                article,
+                user
             }
         },
 
@@ -61,6 +69,8 @@
                     }
                 ]
             }
-        }
+        },
+
+        methods: {}
     }
 </script>

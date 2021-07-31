@@ -18,3 +18,20 @@ export const register = data => {
         data
     })
 }
+
+
+//获取用户信息
+export const getUserInfo = () => {
+    return request({
+        method: 'GET',
+        url: '/api/user'
+    })
+}
+
+//获取其他用户信息
+export const getUserProfile = slug => {
+    return request({
+        method: 'GET',
+        url: `/api/profiles/${slug}`
+    })
+}
