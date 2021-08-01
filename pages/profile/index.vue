@@ -10,11 +10,18 @@
                         <p>
                             {{profile.bio}}
                         </p>
-                        <button class="btn btn-sm btn-outline-secondary action-btn"
+                        <button v-if="profile.username!=user.username"
+                                class="btn btn-sm btn-outline-secondary action-btn"
                                 @click="followUser">
                             <i class="ion-plus-round"></i>
                             {{profile.following ? 'UnFollow':'Follow'}} {{profile.username}}
                         </button>
+                        <nuxt-link v-else  to="/settings">
+                            <button
+                                    class="btn btn-sm btn-outline-secondary action-btn">
+                                <i class="ion-gear-a"></i>&nbsp;Settings
+                            </button>
+                        </nuxt-link>
                     </div>
 
                 </div>
@@ -92,7 +99,8 @@
                             :class="{active: item=== page}"
                             v-for="item in totalPage" :key="item">
                             <nuxt-link class="page-link ng-binding"
-                                       :to="{name: 'profile', params: {username: profile.username}, query:{tab:tab, page: item}}">{{item}}
+                                       :to="{name: 'profile', params: {username: profile.username}, query:{tab:tab, page: item}}">
+                                {{item}}
                             </nuxt-link>
                         </li>
                     </ul>
@@ -148,15 +156,18 @@
                 tab: tab,
                 page: page,
                 limit: 20,//接口默认是20
-                profile: data?.profile
+                profile: data?.profile,
+                user: store.state.user
             }
-
         },
 
         methods: {
             followUser() {
 
             },
+            settingUser() {
+
+            }
         }
     }
 </script>

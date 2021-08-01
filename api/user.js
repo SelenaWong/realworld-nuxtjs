@@ -28,6 +28,15 @@ export const getUserInfo = () => {
     })
 }
 
+//更新用户信息
+export const updateUserInfo = (data)=>{
+    return request({
+        method:'PUT',
+        url:'/api/user',
+        data
+    })
+}
+
 //获取其他用户信息
 export const getUserProfile = slug => {
     return request({
