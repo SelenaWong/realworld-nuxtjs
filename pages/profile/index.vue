@@ -28,15 +28,29 @@
                     <div class="articles-toggle">
                         <ul class="nav nav-pills outline-active">
                             <li class="nav-item">
-                                <a class="nav-link active" href="">My Articles</a>
+                                <nuxt-link class="nav-link"
+                                           :class="{
+                                                active: tab==='my_articles'
+                                           }"
+                                           exact
+                                           :to="{name: 'profile',params: {username:this.profile.username}, query:{tab:'my_articles', page: 1}}">
+                                    My Articles
+                                </nuxt-link>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Favorited Articles</a>
+                                <nuxt-link class="nav-link"
+                                           :class="{
+                                                active: tab==='favorited_articles'
+                                           }"
+                                           exact
+                                           :to="{name: 'profile',params: {username: this.profile.username}, query:{tab:'favorited_articles',page: 1}}">
+                                    Favorited Articles
+                                </nuxt-link>
                             </li>
                         </ul>
                     </div>
-
-                    <div class="article-preview" v-for="article in myArticles" :key="article.slug">
+                    <div v-if="loadArticles&&loadArticles.length"
+                         class="article-preview" v-for="article in loadArticles" :key="article.slug">
                         <div class="article-meta">
                             <nuxt-link :to="{name:'profile', params:{username:article.author.username}}">
                                 <img :src="article.author.image"/>
@@ -66,12 +80,23 @@
                             <p>{{article.description}}</p>
                             <span>Read more...</span>
                             <ul class="tag-list" v-if="article.tagList&&article.tagList.length">
-                                <li class="tag-default tag-pill tag-outline" v-for="tag in article.tagList" :key="tag">{{tag}}</li>
+                                <li class="tag-default tag-pill tag-outline" v-for="tag in article.tagList" :key="tag">
+                                    {{tag}}
+                                </li>
                             </ul>
                         </nuxt-link>
                     </div>
-
-
+                    <!--分页页码-->
+                    <ul v-if="articlesCount" class="pagination">
+                        <li class="page-item ng-scope"
+                            :class="{active: item=== page}"
+                            v-for="item in totalPage" :key="item">
+                            <nuxt-link class="page-link ng-binding"
+                                       :to="{name: 'profile', params: {username: profile.username}, query:{tab:tab, page: item}}">{{item}}
+                            </nuxt-link>
+                        </li>
+                    </ul>
+                    <!--分页页码-->
                 </div>
 
             </div>
@@ -90,40 +115,48 @@
 
         data() {
             return {
-                profile: {
-                    image: '',
-                    bio: '',
-                    username: '',
-                    following: false
-                },
-                myArticles: [],
-                favoritedArticles: [],
-                currentIndex: 0,
+                // profile: {
+                //     image: '',
+                //     bio: '',
+                //     username: '',
+                //     following: false
+                // },
+                // loadArticles: [],
+                // articlesCount: 0,
+                tab: '',
+                // page: 1,
+                // limit: 20,//接口默认是20
             }
         },
-
-
-        async mounted() {
-            let {data} = await getUserProfile(this.$route.params.username)
-            this.profile = data.profile
-            this.getFavoritedArticles()
-            this.getMyArticles()
+        computed: {
+            totalPage() {
+                //向上取整
+                return Math.ceil(this.articlesCount / this.limit)
+            }
         },
+        //当路由中的查询参数变化时，页面重新渲染
+        watchQuery: ['page', 'tab'],
 
+        async asyncData({query, params, store}) {
+            let page = Number.parseInt(query.page || 1)
+            let {data} = store.state.user ? await getUserProfile(params.username) : null
+            let tab = query?.tab || 'my_articles'
+            let result = store.state.user && tab === 'my_articles' ? await getArticles({author: params.username}) : await getArticles({favorited: params.username})
+            return {
+                loadArticles: result?.data?.articles || [],
+                articlesCount: result?.data?.articlesCount || 0,
+                tab: tab,
+                page: page,
+                limit: 20,//接口默认是20
+                profile: data?.profile
+            }
+
+        },
 
         methods: {
             followUser() {
 
             },
-
-            async getMyArticles() {
-                let {data} = await getArticles({author: this.profile.username})
-                this.myArticles = data.articles
-            },
-            async getFavoritedArticles() {
-                let {data} = await getArticles({favorited: this.profile.username})
-                this.favoritedArticles = data.articles
-            }
         }
     }
 </script>
